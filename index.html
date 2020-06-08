@@ -1,0 +1,183 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>@media only screen and (max-width: 800px) {.container{display:none;}}@media only screen and (min-width: 800px) {.loaloa{display:none;}}</style>
+<div class="loaloa" style="margin:20px">Để đảm bảo dễ nhìn, bạn hãy kéo cứa sổ to ra một chút để sử dụng, cảm ơn!</div>
+<div class="container">
+   <h1>Tool mô phỏng quá trình hoạt động của hàm Vlookup trong excel. By Phan Minh Tài</h1>
+   <h4>Đề bài: Điền vào cột ngôn ngữ của bảng "Độ phổ biến của một số ngôn ngữ lập trình" dựa vào bảng "Bảng ngôn ngữ"</h4>
+   <span style="font-size:25px;color:red" id="demo2"></span><br>
+   <div style="margin-top:10px"></div>
+   <div class="bar">
+      <div class="form-group">
+         <label for="input">Chọn một ô cần mô phỏng:</label>
+         <select class="form-control" id="input">
+            <option>B2</option>
+            <option>B3</option>
+            <option>B4</option>
+            <option>B5</option>
+            <option>B6</option>
+         </select>
+      </div>
+      <label for="input">Thời gian delay giữa các bước (1000 = 1s):</label>
+      <input type="number" class="form-control" id="delay" value="10000">
+      <div style="margin-top:10px"></div>
+      <label for="input">Thời gian delay vòng lặp (1000 = 1s):</label>
+      <input type="number" class="form-control" id="delay_for" value="2000">
+      <div style="margin-top:10px"></div>
+      <input type="button" class="btn btn-success" value="Chạy" onclick="run_function()">
+   </div>
+   <div class="code" style="display:none;">Code: <input id="code" class="form-control"></div>
+   <br>
+   <span id="demo"></span>
+   <span id="output"></span>
+   <script>
+      //Code by Phan Minh Tài - Sharescript.net
+      
+      //Khởi tạo table_array
+      var table_array= new Array();
+       table_array.push( ["NN1","HTML"] );
+       table_array.push( ["NN2","CSS"] );
+       table_array.push( ["NN3","Javascript"] ); 
+       table_array.push( ["NN4","PHP"] ); 
+       table_array.push( ["NN5","React"] ); 
+       table_array.push( ["NN6","Python"] ); 
+       table_array.push( ["NN7","Ruby"] ); 
+       table_array.push( ["NN8","AutoIT"] ); 
+       table_array.push( ["NN9","Java"] ); 
+       
+       
+       //Khởi tạo table cần điền
+      var table= new Array();
+       table.push( ["Mã ngôn ngữ","Ngôn ngữ","Độ phổ biến"] );
+       table.push( ["NN6","","Top 1"] );
+       table.push( ["NN9","","Top 2"] ); 
+       table.push( ["NN3","","Top 3"] ); 
+       table.push( ["NN4","","Top 4"] ); 
+       table.push( ["NN5","","Top 5"] ); 
+       
+      
+       
+       var Out1="<table id='table_1' class='table table-bordered'>";
+       for (var y=0; y<table.length; y++ ) {
+       Out1 += "<tr>";
+       for (var x=0; x<table[y].length; x++ ) {
+       Out1 += "<td>" + table[y][x] + "</td>";
+       }
+       Out1 += "</tr>";
+       }
+       Out1 += "</table>";
+       
+      var Out2="<table id='table_2' class='table table-bordered'>";
+       for (var y=0; y<table_array.length; y++ ) {
+       Out2 += "<tr>";
+       for (var x=0; x<table_array[y].length; x++ ) {
+       Out2 += "<td>" + table_array[y][x] + "</td>";
+       }
+       Out2 += "</tr>";
+       }
+       Out2 += "</table>";
+       
+       document.getElementById("demo").innerHTML = "<div class='col-sm-6'><h1>Độ phổ biến của một số ngôn ngữ lập trình</h1>" + Out1 +"</div><div class='col-sm-6'><h1>Bảng Ngôn ngữ</h1>"+ Out2 +"</div>";
+       
+       
+      document.getElementById("demo2").innerHTML = "Hoàn thành thiết lập dưới đây và nhấp chạy để bắt đầu!";
+      
+      //Hàm random mã màu
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+      
+      //Khi click vào button chạy
+      function run_function(){
+      
+      var time = document.getElementById("delay").value;
+      var delay_for = document.getElementById("delay_for").value;
+      
+      $(".code").fadeIn(3000);
+      
+      $(".bar").fadeOut();
+      var input = document.getElementById("input").value;
+      
+      var tg1 = getRandomColor();
+      document.getElementById("demo2").innerHTML = "Được rồi, bạn đã chọn ô "+ input + "<br>Tôi đã mô phỏng ô bạn chọn có màu <div style='width:20px;height:20px;display: inline-block;background-color:"+tg1+"'></div>";
+      
+      document.getElementById("code").value = "=vlookup()";
+      //Cắt lấy số thứ tự
+      var row_input = input.slice(1, 2);
+      
+      //Tính ô mà người dùng chọn rồi hiển thị màu ra
+      row_input = Number(row_input)*3 - 2;
+        var els = document.getElementById("table_1").getElementsByTagName("td");
+        els[row_input].style.background = tg1;
+        els[row_input].style.color = "white";
+      
+      //Lấy value cho lookup_value
+      var lookup_value = table[(row_input+2)/3-1][0];
+      
+      var tg2 = getRandomColor();
+       setTimeout(function(){
+       document.getElementById("demo2").innerHTML = "Ở đây <span style='color:green'>lookup_value</span> nằm ở cột <span style='color:blue'>Mã ngôn ngữ</span> và cùng hàng với ô bạn chọn. <br> Nó là <span style='color:blue'>"+lookup_value+"</span> ở ô <span style='color:blue'>A"+((row_input+2)/3)+"</span><br>Tôi đã đổ màu ô <span style='color:green'>lookup_value</span> là <div style='width:20px;height:20px;display: inline-block;background-color:"+tg2+"'></div>";
+        var els = document.getElementById("table_1").getElementsByTagName("td");
+        els[row_input-1].style.background = tg2;
+        els[row_input-1].style.color = "white";
+        document.getElementById("code").value = "=vlookup(A"+((row_input+2)/3)+",)";
+         }, time);
+       
+      //Lấy cột cần xuất (có thể chỉnh sửa, tuy nhiên đề bài chỉ cho để cột 2)
+      var col_index_num = 2; 
+      
+      var b = 0; //Khởi tạo biến lưu hàng trung gian
+      
+      //Vì array bắt đầu từ 0 nên trừ 1
+      var col_index_num_2 = col_index_num - 1; 
+       
+      
+       var tg3 = getRandomColor();
+       setTimeout(function(){
+       document.getElementById("demo2").innerHTML = "Tiếp theo máy sẽ lấy <span style='color:green'>lookup_value</span>, tức là "+lookup_value+" để tiến hành so sánh với từng phần tử trong cột đầu tiên của <span style='color:green'>table_aray</span>. Nếu trùng thì dừng lại và lưu số thứ tự hàng vào một biến <span style='color:blue'>a</span><br><span style='color:brown'>Lưu ý: Đối với excel, microsoft sẽ dùng thuật toán để tìm kiếm nhanh hơn chứ không phải dùng vòng lặp như thế này. VD: Tìm kiếm nhị phân</span>";
+        var els = document.getElementById("table_1").getElementsByTagName("td");
+        els[row_input-1].style.background = tg3;
+        els[row_input-1].style.color = "white";
+        document.getElementById("code").value = "=vlookup(A"+((row_input+2)/3)+",$A$1:$B$9)";
+      
+      var i=0; 
+      function loop() {      
+        setTimeout(function() { 
+          var tg4 = getRandomColor();
+            var els2 = document.getElementById("table_2").getElementsByTagName("td");
+            els2[i*2].style.background = tg4;
+            els2[i*2].style.color = "white";
+          i++;
+           //So sánh từng ô của cột đầu tiên trong table_array với lookup_value, nếu trùng thì lưu hàng vào b và nhảy khỏi vòng lặp
+          if(table_array[i-1][0] != lookup_value){
+             loop();
+          }
+          else{
+             b = i;
+             document.getElementById("demo2").innerHTML = "Ở đây a bằng "+i;
+             var tg5 = getRandomColor();
+       setTimeout(function(){
+       document.getElementById("demo2").innerHTML = "Tiếp theo lấy ô có hàng là a và cột là <span style='color:green'>col_index_num</span> để điền vào ô ban đầu được chọn. <a href='#' onClick='window.location.reload(true)'>Làm lại</a><br><br>Follow me on Github: <a href='https://github.com/phanminhtai/' target='_blank'>Phan Minh Tài</a><br>My website: <a href='https://sharescript.net' target='_blank'>Sharescript.net</a> | <a href='https://taipm.net' target='_blank'>Taipm.net</a> | <a href='https://toolfree.net' target='_blank'>Toolfree.net</a>";
+        var els2 = document.getElementById("table_2").getElementsByTagName("td");
+            els2[(b-1)*2+1].style.background = tg5;
+            els2[(b-1)*2+1].style.color = "white";
+        document.getElementById("code").value = "=vlookup(A"+((row_input+2)/3)+",$A$1:$B$9,2,0)";
+        
+        var tbl = document.getElementById('table_1');
+        tbl.rows[(row_input+2)/3-1].cells[1].innerHTML = table_array[b-1][col_index_num_2];
+         }, time);
+          }
+        }, delay_for)
+      }
+      loop();  
+         }, time*2);
+      
+       }
+   </script>
+</div>
+
