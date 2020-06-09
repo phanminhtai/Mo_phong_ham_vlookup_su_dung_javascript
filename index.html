@@ -1,11 +1,14 @@
+<meta charset="utf8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<style>@media only screen and (max-width: 800px) {.container{display:none;}}@media only screen and (min-width: 800px) {.loaloa{display:none;}}</style>
+<style>@media only screen and (max-width: 800px) {.container{display:none;}}@media only screen and (min-width: 800px) {.loaloa{display:none;}}
+</style>
 <div class="loaloa" style="margin:20px">Để đảm bảo dễ nhìn, bạn hãy kéo cứa sổ to ra một chút để sử dụng, cảm ơn!</div>
 <div class="container">
    <h1>Tool mô phỏng quá trình hoạt động của hàm Vlookup trong excel. By Phan Minh Tài</h1>
    <h4>Đề bài: Điền vào cột ngôn ngữ của bảng "Độ phổ biến của một số ngôn ngữ lập trình" dựa vào bảng "Bảng ngôn ngữ"</h4>
    <span style="font-size:25px;color:red" id="demo2"></span><br>
+   <span style="font-size:25px;color:red" id="demo3"></span><br>
    <div style="margin-top:10px"></div>
    <div class="bar">
       <div class="form-group">
@@ -97,6 +100,8 @@
       
       var time = document.getElementById("delay").value;
       var delay_for = document.getElementById("delay_for").value;
+      var els = document.getElementById("table_1").getElementsByTagName("td");
+      var els2 = document.getElementById("table_2").getElementsByTagName("td");
       
       $(".code").fadeIn(3000);
       
@@ -112,7 +117,6 @@
       
       //Tính ô mà người dùng chọn rồi hiển thị màu ra
       row_input = Number(row_input)*3 - 2;
-        var els = document.getElementById("table_1").getElementsByTagName("td");
         els[row_input].style.background = tg1;
         els[row_input].style.color = "white";
       
@@ -122,7 +126,6 @@
       var tg2 = getRandomColor();
        setTimeout(function(){
        document.getElementById("demo2").innerHTML = "Ở đây <span style='color:green'>lookup_value</span> nằm ở cột <span style='color:blue'>Mã ngôn ngữ</span> và cùng hàng với ô bạn chọn. <br> Nó là <span style='color:blue'>"+lookup_value+"</span> ở ô <span style='color:blue'>A"+((row_input+2)/3)+"</span><br>Tôi đã đổ màu ô <span style='color:green'>lookup_value</span> là <div style='width:20px;height:20px;display: inline-block;background-color:"+tg2+"'></div>";
-        var els = document.getElementById("table_1").getElementsByTagName("td");
         els[row_input-1].style.background = tg2;
         els[row_input-1].style.color = "white";
         document.getElementById("code").value = "=vlookup(A"+((row_input+2)/3)+",)";
@@ -140,30 +143,35 @@
        var tg3 = getRandomColor();
        setTimeout(function(){
        document.getElementById("demo2").innerHTML = "Tiếp theo máy sẽ lấy <span style='color:green'>lookup_value</span>, tức là "+lookup_value+" để tiến hành so sánh với từng phần tử trong cột đầu tiên của <span style='color:green'>table_aray</span>. Nếu trùng thì dừng lại và lưu số thứ tự hàng vào một biến <span style='color:blue'>a</span><br><span style='color:brown'>Lưu ý: Đối với excel, microsoft sẽ dùng thuật toán để tìm kiếm nhanh hơn chứ không phải dùng vòng lặp như thế này. VD: Tìm kiếm nhị phân</span>";
-        var els = document.getElementById("table_1").getElementsByTagName("td");
-        els[row_input-1].style.background = tg3;
-        els[row_input-1].style.color = "white";
         document.getElementById("code").value = "=vlookup(A"+((row_input+2)/3)+",$A$1:$B$9)";
       
       var i=0; 
       function loop() {      
         setTimeout(function() { 
           var tg4 = getRandomColor();
-            var els2 = document.getElementById("table_2").getElementsByTagName("td");
             els2[i*2].style.background = tg4;
             els2[i*2].style.color = "white";
+            els2[i*2].style.borderColor = "red";
+            els2[i*2].style.borderWidth = "2px";
+            els2[i*2].style.borderStyle = "dashed";
           i++;
            //So sánh từng ô của cột đầu tiên trong table_array với lookup_value, nếu trùng thì lưu hàng vào b và nhảy khỏi vòng lặp
           if(table_array[i-1][0] != lookup_value){
              loop();
           }
           else{
+          	els2[(i-1)*2].style.background = tg4;
+            els2[(i-1)*2].style.color = "white";
+            els2[(i-1)*2].style.borderColor = "green";
+            els2[(i-1)*2].style.borderWidth = "2px";
+            els2[(i-1)*2].style.borderStyle = "dashed";
+            
              b = i;
-             document.getElementById("demo2").innerHTML = "Ở đây a bằng "+i;
+             document.getElementById("demo3").innerHTML = "Ở đây a bằng "+i;
              var tg5 = getRandomColor();
        setTimeout(function(){
        document.getElementById("demo2").innerHTML = "Tiếp theo lấy ô có hàng là a và cột là <span style='color:green'>col_index_num</span> để điền vào ô ban đầu được chọn. <a href='#' onClick='window.location.reload(true)'>Làm lại</a><br><br>Follow me on Github: <a href='https://github.com/phanminhtai/' target='_blank'>Phan Minh Tài</a><br>My website: <a href='https://sharescript.net' target='_blank'>Sharescript.net</a> | <a href='https://taipm.net' target='_blank'>Taipm.net</a> | <a href='https://toolfree.net' target='_blank'>Toolfree.net</a>";
-        var els2 = document.getElementById("table_2").getElementsByTagName("td");
+       document.getElementById("demo3").innerHTML = "";
             els2[(b-1)*2+1].style.background = tg5;
             els2[(b-1)*2+1].style.color = "white";
         document.getElementById("code").value = "=vlookup(A"+((row_input+2)/3)+",$A$1:$B$9,2,0)";
